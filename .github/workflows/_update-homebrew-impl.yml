@@ -15,7 +15,7 @@ on:
 jobs:
   update-formula:
     name: Update homebrew-lore formula
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, unraid]
     permissions:
       contents: read
 

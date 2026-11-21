@@ -12,16 +12,16 @@ env:
 jobs:
   build:
     name: Build (${{ matrix.target }})
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
+            runner: [self-hosted, linux, x64, unraid]
             archive: tar.gz
           - target: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
+            runner: [self-hosted, linux, x64, unraid]
             archive: tar.gz
             # ONNX Runtime (ort-sys) bundles C++ objects that conflict with
             # every cross-compilation toolchain tried so far (cross, zigbuild).
@@ -30,13 +30,13 @@ jobs:
             zigbuild: true
             continue-on-error: true
           - target: x86_64-apple-darwin
-            os: macos-latest
+            runner: [self-hosted, macOS, ARM64, xcode]
             archive: tar.gz
           - target: aarch64-apple-darwin
-            os: macos-latest
+            runner: [self-hosted, macOS, ARM64, xcode]
             archive: tar.gz
           - target: x86_64-pc-windows-msvc
-            os: windows-latest
+            runner: [self-hosted, windows, x64]
             archive: zip
 
     continue-on-error: ${{ matrix.continue-on-error == true }}
@@ -121,7 +121,7 @@ jobs:
     # The download step below uses `continue-on-error` so missing artifacts
     # from failed legs are skipped rather than aborting the whole job.
     if: always() && !cancelled()
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, unraid]
     permissions:
       contents: write
 
