@@ -12,12 +12,16 @@ env:
 
 jobs:
   test:
-    name: Test (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    name: Test (${{ matrix.name }})
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        include:
+          - name: ubuntu
+            runner: [self-hosted, linux, x64, unraid]
+          - name: macos
+            runner: [self-hosted, macOS, ARM64, xcode]
 
     steps:
       - uses: actions/checkout@v4

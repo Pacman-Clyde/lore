@@ -17,7 +17,7 @@ env:
 jobs:
   discover:
     name: Discover packages
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, unraid]
     outputs:
       matrix: ${{ steps.scan.outputs.matrix }}
     steps:
@@ -39,7 +39,7 @@ jobs:
   build:
     name: Build ${{ matrix.spec }}
     needs: discover
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, unraid]
     strategy:
       fail-fast: false
       matrix:
@@ -136,7 +136,7 @@ jobs:
   publish:
     name: Publish to GitHub Release
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, unraid]
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
